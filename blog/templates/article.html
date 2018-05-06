@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    定制css主题样式：#}
+    <link rel="stylesheet" href="/static/css/theme/{{ blog.theme }}.css" >
+    <style>
+        .comment{
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="c1">
+    <div class="">昵称：{{ blog.user.nickname }}</div>
+    <div>博客标题：{{ blog.title }}</div>
+</div>
+    <div>
+        <h3>分类</h3>
+        <ul>
+            {% for item in category_list %}
+                <li>
+                    <a href="/{{ blog.site }}/category/{{ item.category_id }}/">{{ item.category__title }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>标签</h3>
+        <ul>
+            {% for item in tag_list %}
+                <li>
+                    <a href="/{{ blog.site }}/tag/{{ item.tag_id }}/">{{ item.tag__title }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>时间</h3>
+        <ul>
+            {% for item in date_list %}
+                <li>
+                    <a href="/{{ blog.site }}/date/{{ item.ctime }}">{{ item.ctime }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>文章详细页</h3>
+        {{ obj.articledetail.content|safe }}
+    </div>
+
+{#{{ obj.nid }}表示文章id, 1代表赞用于后台判断#}
+<a onclick="updown(this,{{ obj.nid }}, 1)">
+    <span>赞</span>
+    <i>{{ obj.up_count }}</i>
+</a>
+{#{{ obj.nid }}表示文章id, 0代表踩，用于后台判断#}
+<a onclick="updown(this,{{ obj.nid }}, 0)">
+    <span>踩</span>
+    <i>{{ obj.down_count }}</i>
+</a>
+
+<h3>评论</h3>
+{{ comment_str|safe}}
+
+</body>
+<script src="/static/jquery-1.12.4.js"></script>
+<script>
+    function updown(ths, nid, val) {
+        $.ajax({
+            url:'/up.html',
+            data:{'val': val, 'nid': nid, 'csrfmiddlewaretoken':{{csrfmiddlewaretoken}}},
+            type:'POST',
+            dataType:JSON,
+            success:function (arg) {
+                var res_code = arg.status
+                if (res_code == '1001'){
+                    {#表示赞成功，往页面写入原有赞的数量+1#}
+                }else if (res_code == '1002'){
+                   {#表示踩成功，往页面写入原有踩的数量+1#}
+                }else if (res_code == '1003'){
+                    {#表示添加失败，显示错误信息#}
+                }else {
+                    {#该用户已经点赞过该篇文章，不做任何处理#}
+                }
+            }
+        })
+    }
+</script>
+</html>

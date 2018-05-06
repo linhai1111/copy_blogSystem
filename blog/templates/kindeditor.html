@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/kindeditor.html" method="POST" novalidate>
+    {% csrf_token %}
+    <div>
+        <textarea id="i1" name="content"></textarea>
+    </div>
+    <input type="submit" value="submit">
+</form>
+
+</body>
+<script src="/static/kindeditor-4.1.10/kindeditor-all.js"></script>
+<script>
+    KindEditor.create('#i1',{
+        width:'700px',
+         height: "300px",
+        resizeType:1,/* 可设置为0，1，2分别代表可控制左右，上下拖动及固定*/
+
+        uploadJson: '/upload_img.html',  /* 指定访问url*/
+        extraFileUploadParams:{
+                "csrfmiddlewaretoken":"{{ csrf_token }}" /* 在请求中添加csrf参数*/
+            },
+        filePostName:'333', /*指定上传文件的名称*/
+    })
+</script>
+
+</html>

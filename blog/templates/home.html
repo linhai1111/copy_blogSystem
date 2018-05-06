@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    定制css主题样式：#}
+    <link rel="stylesheet" href="/static/css/theme/{{ blog.theme }}.css" >
+
+</head>
+<body>
+<div class="c1">
+    <div class="">昵称：{{ blog.user.nickname }}</div>
+    <div>博客标题：{{ blog.title }}</div>
+</div>
+    <div>
+        <h3>分类</h3>
+        <ul>
+            {% for item in category_list %}
+                <li>
+                    <a href="/{{ blog.site }}/category/{{ item.category_id }}/">{{ item.category__title }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>标签</h3>
+        <ul>
+            {% for item in tag_list %}
+                <li>
+                    <a href="/{{ blog.site }}/tag/{{ item.tag_id }}/">{{ item.tag__title }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>时间</h3>
+        <ul>
+            {% for item in date_list %}
+                <li>
+                    <a href="/{{ blog.site }}/date/{{ item.ctime }}">{{ item.ctime }}({{ item.ct }})</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h3>所有文章内容</h3>
+        <ul>
+            {% for row in article_list %}
+                <li>
+                    <a href="/{{ blog.site }}/{{row.nid}}.html">{{row.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</body>
+</html>
